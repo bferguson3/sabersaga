@@ -1,12 +1,13 @@
-
+import sys 
+import os 
 # Write header data 
 obz = []
-f = open(sys.argv[1].split('.')[0] + '.bin', 'rb')
+f = open(sys.argv[1], 'rb')
 obz = f.read()
 f.close()
-
-f = open(sys.argv[1].split('.')[0] + '.h', 'w')
-f.write("// png2gbc\nconst unsigned char " + sys.argv[1].split('.')[0] + "["+str(len(obz))+"] = {\n\t")
+fn = os.path.basename(sys.argv[1]).split('.')[0]
+f = open(fn + '.h', 'w')
+f.write("// png2gbc\nconst unsigned char " + fn + "["+str(len(obz))+"] = {\n\t")
 i = 0
 while i < len(obz):
     f.write('0x{0:0{1}X}'.format(obz[i],2) + ', ')

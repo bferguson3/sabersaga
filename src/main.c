@@ -20,7 +20,6 @@ volatile unsigned char* SPR_PAL_DATA_REG = (unsigned char*)0xff6b; // gbc pal ou
                                     *BG_PAL_DATA_REG = (UBYTE)(color & 0xff);\
                                     *BG_PAL_DATA_REG = (UBYTE)((color & 0xff00) >> 8);
 #define RGB15(r,g,b) (int)(r | g << 5 | b << 10)
-
 #define QUEUE_SIZE 25
 volatile void* function_q[QUEUE_SIZE];
 volatile int q_args[QUEUE_SIZE];
@@ -31,6 +30,7 @@ void AddQueue(void *q, int a);
 #define AddQ(s) AddQueue(s, 0)
 void DoQ();
 #define secs(s) (int)(s*60)
+const unsigned char ninja01_f[] = { 0, 1, 2, 3 };
 
 void Wait(int a)
 {
@@ -64,7 +64,7 @@ void LoadTitleScreen()
 }
 void Test2()
 {
-    printf("wtf i love anal");
+    printf("wtf i lan");
 }
 
 void main(void)
@@ -88,10 +88,17 @@ void main(void)
     // Set palette, or black if on GBBW
     disable_interrupts();
     DISPLAY_OFF
-    SetBGColor(0, 0, RGB15(19, 15, 31));
-    SetBGColor(0, 3, RGB15(10, 29, 8));
+
+    SetBGColor(0, 0, RGB15(0, 0, 0));
+    SetBGColor(0, 1, RGB15(0, 0, 20));
+    SetBGColor(0, 2, RGB15(0, 0, 8));
+    SetBGColor(0, 3, RGB15(31, 31, 31));
     //bw
     *BG_PAL_REG = 0xff;
+
+    set_sprite_data(0, 4, (void*)&ninja01);
+    //set_bkg_tiles(0, 0, 2, 2, (void*)&t);
+    
     DISPLAY_ON;
     enable_interrupts();
     

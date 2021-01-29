@@ -1,4 +1,5 @@
 import sys
+import os 
 import numpy
 from PIL import Image, ImageDraw
 
@@ -14,21 +15,26 @@ for yt in range(0, int(h / 8)):
     for xt in range(0, int(w / 8)):
         for y in range((yt * 8), (yt * 8) + 8): #single tile
             for x in range(xt * 8, (xt * 8) + 8, 8): 
-                ob = 0
-                for b in range (0, 4): 
-                    ob += (iarr[y][x + b] << (3-b)*2)
-                    #print(iarr[y][x + b], end=' ')
-                obz.append(ob)
-                ob2 = 0
-                for b in range (4, 8): 
-                    ob2 += (iarr[y][x + b] << (3-(b-4))*2)
-                    #print(iarr[y][x + b], end=' ')
-                obz.append(ob2)
-            #print('')
+                bina_o = '' # high byte first 
+                binb_o = ''
+                for b in range(0, 8):
+                    bina = bin(iarr[y][x + b])[2:]
+                    if(len(bina) == 1):
+                        bina = '0' + bina
+                    bina_o += bina[0]
+                    binb = bin(iarr[y][x + b])[2:]
+                    if(len(binb) == 1):
+                        binb = '0' + binb
+                    binb_o += binb[1]
+                bina_o = int(bina_o, 2)
+                binb_o = int(binb_o, 2)
+                obz.append(bina_o)
+                obz.append(binb_o)
+            #print('')   
         #print('')
-
+print(obz)
 # Write binary data
-f = open(sys.argv[1].split('.')[0] + '.bin', 'wb')
+f = open('.\/res\/' + os.path.splitext(os.path.basename(sys.argv[1]))[0] + '.bin', 'wb')
 i = 0
 while i < len(obz):
     f.write(bytes([obz[i]]))
