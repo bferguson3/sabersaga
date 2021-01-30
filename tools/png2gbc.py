@@ -22,10 +22,10 @@ for yt in range(0, int(h / 8)):
                     if(len(bina) == 1):
                         bina = '0' + bina
                     bina_o += bina[0]
-                    binb = bin(iarr[y][x + b])[2:]
-                    if(len(binb) == 1):
-                        binb = '0' + binb
-                    binb_o += binb[1]
+                    bina = bin(iarr[y][x + b])[2:]
+                    if(len(bina) == 1):
+                        bina = '0' + bina
+                    binb_o += bina[1]
                 bina_o = int(bina_o, 2)
                 binb_o = int(binb_o, 2)
                 obz.append(bina_o)
